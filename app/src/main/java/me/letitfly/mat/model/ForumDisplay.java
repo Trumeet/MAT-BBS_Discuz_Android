@@ -184,10 +184,19 @@ public class ForumDisplay implements Parcelable{
         private Reply[] reply;
 
         public static class Reply implements Parcelable {
+            public String getAvatar() {
+                return avatar;
+            }
+
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
+            }
+
             private String pid;
             private String author;
             private String authorid;
             private String message;
+            private String avatar = "";
 
             public String getPid() {
                 return pid;
@@ -226,6 +235,7 @@ public class ForumDisplay implements Parcelable{
                 author = in.readString();
                 authorid = in.readString();
                 message = in.readString();
+                avatar = in.readString();
             }
 
             public static final Creator<Reply> CREATOR = new Creator<Reply>() {
@@ -251,6 +261,7 @@ public class ForumDisplay implements Parcelable{
                 parcel.writeString(author);
                 parcel.writeString(authorid);
                 parcel.writeString(message);
+                parcel.writeString(avatar);
             }
         }
 

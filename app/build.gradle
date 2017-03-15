@@ -46,6 +46,8 @@ dependencies {
     // butter knife
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    // glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     // bottom sheet
     compile 'com.flipboard:bottomsheet-core:1.5.3'
     compile 'com.flipboard:bottomsheet-commons:1.5.3'

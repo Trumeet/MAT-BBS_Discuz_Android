@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.letitfly.mat.R;
 import me.letitfly.mat.model.ForumDisplay;
 
@@ -43,8 +46,22 @@ public class ThreadListAdapter extends ArrayAdapter {
         TextView title = (TextView) convertView.findViewById(android.R.id.text1);
         title.setText(discussion.getSubject());
 
-        //CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
-        //NetworkUtil.loadImage(discussion, avatar);
+        CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
+        ForumDisplay.Thread.Reply[] replys = discussion.getReply();
+        if (replys != null && replys.length > 0) {
+            Glide.with(mContext)
+                    // Get first reply user avatar
+                    .load(replys[0].getAvatar())
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(avatar);
+        } else {
+            // No avatar, load default.
+            Glide.with(mContext)
+                    .load(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(avatar);
+        }
+
 
         TextView context = (TextView) convertView.findViewById(android.R.id.text2);
         context.setText(mContext.getString(R.string.text_post_summary
