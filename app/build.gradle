@@ -10,6 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // BBS信息
+        buildConfigField "String", "BBS_URL", "\"https://mat.letitfly.me/\""
     }
     buildTypes {
         debug {

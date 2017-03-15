@@ -9,7 +9,7 @@ import rx.Observable;
 
 /**
  * Created by Trumeet on 2017/3/2.
- * Mat Bbs Api
+ * Discuz Bbs Api
  * @author Trumeet
  */
 

@@ -1,5 +1,6 @@
 package me.letitfly.mat.api;
 
+import me.letitfly.mat.BuildConfig;
 import me.letitfly.mat.api.exception.ApiException;
 import me.letitfly.mat.api.model.HttpResult;
 import me.letitfly.mat.model.ForumDisplay;
@@ -30,7 +31,7 @@ public class APIManager {
     private static Retrofit getBaseRetrofit () {
         Logger.i(TAG, "-> getBaseRetrofit");
         Retrofit.Builder builder =  new Retrofit.Builder()
-                .baseUrl("https://mat.letitfly.me/api/")
+                .baseUrl(BuildConfig.BBS_URL + "api/")
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create());
         if (DEBUG) {
