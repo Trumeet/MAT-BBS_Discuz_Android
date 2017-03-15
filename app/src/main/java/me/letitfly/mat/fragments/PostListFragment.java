@@ -42,6 +42,7 @@ public class PostListFragment extends ListFragment {
 
     public void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Logger.i(TAG, "onCreate");
         mForum = getArguments().getParcelable(EXTRA_FORUM);
     }
 
@@ -72,7 +73,7 @@ public class PostListFragment extends ListFragment {
     }
 
     public synchronized void refresh (@Nullable final RefreshListener refreshListener) {
-        Logger.i(TAG, "-> refresh");
+        Logger.i(TAG, "-> refresh:" + mForum);
         if (mGetListSubscriber != null)
             mGetListSubscriber.unsubscribe();
         setListAdapter(null);

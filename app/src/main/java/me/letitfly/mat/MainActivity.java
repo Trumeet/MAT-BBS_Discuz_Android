@@ -23,7 +23,6 @@ import me.letitfly.mat.api.APIManager;
 import me.letitfly.mat.fragments.PostListFragment;
 import me.letitfly.mat.model.ForumNav;
 import me.letitfly.mat.utils.Logger;
-import rx.Observable;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -55,27 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 if (mCurrentForumIndex == -1) {
                     refreshForums();
                 } else {
-                    mRefreshLayout.setRefreshing(true);
-                    refreshCurrent();
+                    mRefreshLayout.setRefreshing(false);
+                    mRefreshLayout.setEnabled(false);
                 }
             }
         });
         refreshForums();
-    }
-
-    private void refreshCurrent () {
-        mPostListFragments.get(mCurrentForumIndex).refresh(new PostListFragment.RefreshListener() {
-            @Override
-            public void finish() {
-                mRefreshLayout.setRefreshing(false);
-                mRefreshLayout.setEnabled(false);
-            }
-
-            @Override
-            public void err() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
     }
 
     private void refreshForums () {
@@ -87,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 = new ProgressSubscriber.SubscriberOnNextListener<ForumNav>() {
             @Override
             public void onNext(ForumNav forumNav) {
+                Logger.i(TAG, "onNext:" + forumNav.toString());
                 List<ForumNav.Forum> forumList = Arrays.asList(forumNav.getForums());
                 if (mForums != null)
                     mForums.clear();
@@ -103,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 for (ForumNav.Forum forum : mForums) {
                     mPostListFragments.add(PostListFragment.newInstance(forum));
                 }
-                switchForum(0);
 
                 mToolBarTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -127,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                         }, mForums);
                     }
                 });
+                switchForum(0);
                 mRefreshLayout.setRefreshing(false);
+                mRefreshLayout.setEnabled(false);
             }
 
             @Override
@@ -141,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchForum (int index) {
+        Logger.i(TAG, "switchForum:" + index);
+        Logger.i(TAG, "forum:" + mForums.size() + ",fragments:" + mPostListFragments.size());
         mCurrentForumIndex = index;
         ForumNav.Forum forum = mForums.get(index);
         Logger.i(TAG, forum.toString());
@@ -149,6 +137,5 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.frame, mPostListFragments.get(index))
                 .commitAllowingStateLoss();
         mRefreshLayout.setEnabled(true);
-        refreshCurrent();
     }
 }
