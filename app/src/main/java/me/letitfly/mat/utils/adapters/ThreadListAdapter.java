@@ -47,11 +47,11 @@ public class ThreadListAdapter extends ArrayAdapter {
         title.setText(discussion.getSubject());
 
         CircleImageView avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
-        ForumDisplay.Thread.Reply[] replys = discussion.getReply();
-        if (replys != null && replys.length > 0) {
+        ForumDisplay.Thread.Reply[] replies = discussion.getReply();
+        if (replies != null && replies.length > 0) {
             Glide.with(mContext)
                     // Get first reply user avatar
-                    .load(replys[0].getAvatar())
+                    .load(replies[0].getAvatar())
                     .placeholder(R.mipmap.ic_launcher)
                     .into(avatar);
         } else {
