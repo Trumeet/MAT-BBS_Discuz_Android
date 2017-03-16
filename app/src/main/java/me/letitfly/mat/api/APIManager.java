@@ -5,6 +5,7 @@ import me.letitfly.mat.api.exception.ApiException;
 import me.letitfly.mat.api.model.HttpResult;
 import me.letitfly.mat.model.ForumDisplay;
 import me.letitfly.mat.model.ForumNav;
+import me.letitfly.mat.model.ThreadView;
 import me.letitfly.mat.utils.Logger;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -57,6 +58,12 @@ public class APIManager {
         Logger.i(TAG, "-> getForums");
         toSubscribe(getInterface().nav(page)
                 .map(new HttpResultFunc<ForumNav>()), subscriber);
+    }
+
+    public static void getThreadView (int tid, int page, Subscriber<ThreadView> subscriber) {
+        Logger.i(TAG, "-> getThreadView");
+        toSubscribe(getInterface().threadView(tid, page)
+                .map(new HttpResultFunc<ThreadView>()), subscriber);
     }
 
     //添加线程管理并订阅

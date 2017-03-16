@@ -1,4 +1,4 @@
-package me.letitfly.mat;
+package me.letitfly.mat.activities;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
 
+import me.letitfly.mat.R;
 import me.letitfly.mat.utils.ForumSwitchUtils;
 import me.letitfly.mat.utils.ProgressSubscriber;
 import rx.Subscriber;

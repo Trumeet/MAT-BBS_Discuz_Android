@@ -8,4 +8,7 @@
     <!-- For Forum Switcher -->
     <string name="title_forums">Forums</string>
     <string name="filter_all">All</string>
+
+    <!-- Hint in reply thread -->
+    <string name="hint_enter_a_message"></string>
 </resources>

@@ -2,15 +2,18 @@ package me.letitfly.mat.fragments;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import java.util.Arrays;
 import java.util.List;
 
+import me.letitfly.mat.activities.ThreadViewActivity;
 import me.letitfly.mat.api.APIManager;
 import me.letitfly.mat.model.ForumDisplay;
 import me.letitfly.mat.model.ForumNav;
@@ -49,7 +52,7 @@ public class PostListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        refresh(null);
+        refresh();
     }
 
     @Override
@@ -67,12 +70,7 @@ public class PostListFragment extends ListFragment {
         return fragment;
     }
 
-    public interface RefreshListener {
-        void finish();
-        void err();
-    }
-
-    public synchronized void refresh (@Nullable final RefreshListener refreshListener) {
+    public synchronized void refresh () {
         Logger.i(TAG, "-> refresh:" + mForum);
         if (mGetListSubscriber != null)
             mGetListSubscriber.unsubscribe();
@@ -81,20 +79,23 @@ public class PostListFragment extends ListFragment {
         ProgressSubscriber.SubscriberOnNextListener<ForumDisplay> listener
                 = new ProgressSubscriber.SubscriberOnNextListener<ForumDisplay>() {
             @Override
-            public void onNext(ForumDisplay display) {
+            public void onNext(final ForumDisplay display) {
                 ForumDisplay.Thread[] threads = display.getForum_threadlist();
                 mThreadList = Arrays.asList(threads);
                 mAdapter = new ThreadListAdapter(getActivity(), mThreadList);
                 getListView().setAdapter(mAdapter);
-                if (refreshListener != null)
-                    refreshListener.finish();
+                getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        startActivity(new Intent(getActivity(), ThreadViewActivity.class)
+                        .putExtra(ThreadViewActivity.EXTRA_TID, mThreadList.get(i).getTid()));
+                    }
+                });
             }
 
             @Override
             public void onError(Throwable e) {
                 // TODO: Show error
-                if (refreshListener != null)
-                    refreshListener.err();
             }
         };
         mGetListSubscriber = new ProgressSubscriber<>(listener);
